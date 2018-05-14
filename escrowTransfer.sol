@@ -26,7 +26,6 @@ contract escrowTransfer {
 
   function releaseFunds(uint id) public payable returns (bool transferStatus) {
     Transfer storage a = transfers[id];
-    logTransfer(id);
     if ( a.deadline > now ) {
       return a.sender.send(a.value);
     }
@@ -45,9 +44,9 @@ contract escrowTransfer {
     return false;
   }
 
-  function logTransfer(uint id) public view returns (address sender) {
+  function logTransfer(uint id) public view returns (address sender, address recipient, address escrow, uint value, uint deadline, bool released) {
     Transfer storage a = transfers[id];
-    return a.sender;
+    return (a.sender, a.recipient, a.escrow, a.value, a.deadline, a.released);
   }
 
 }
